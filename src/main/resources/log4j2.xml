@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+
+
+        <RollingFile name="FileAppender" fileName="logs/application.log"
+                     filePattern="logs/application-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}   %-5p   [%t]   Method: %M()    Class: %C    Message: %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+    </Appenders>
+
+    <loggers>
+        <root level="debug">
+            <appender-ref ref="FileAppender"/>
+        </root>
+    </loggers>
+</Configuration>

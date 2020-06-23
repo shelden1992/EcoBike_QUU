@@ -139,4 +139,7 @@ Desktop.ini
 ######################
 .eslintcache
 /.idea/
+data/
+logs/
+target/
 
