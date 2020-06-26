@@ -1,4 +1,4 @@
-package org.ecoBike.quu.messagesMenu;
+package org.ecoBike.quu.messages;
 
 /**
  * Created by Shelupets Denys on 24.06.2020.

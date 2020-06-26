@@ -1,4 +1,4 @@
-package org.ecoBike.quu.bikes;
+package org.ecoBike.quu.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

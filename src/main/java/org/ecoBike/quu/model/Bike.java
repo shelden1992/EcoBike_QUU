@@ -1,7 +1,6 @@
-package org.ecoBike.quu.bikes;
+package org.ecoBike.quu.model;
 
 import lombok.*;
-import lombok.extern.log4j.Log4j;
 
 import java.util.StringJoiner;
 
