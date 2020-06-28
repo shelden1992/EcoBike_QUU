@@ -1,6 +1,9 @@
 package org.ecoBike.quu.model;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.StringJoiner;
 
@@ -8,7 +11,8 @@ import java.util.StringJoiner;
  * Created by Shelupets Denys on 23.06.2020.
  */
 @Getter
-@AllArgsConstructor
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode
 abstract public class Bike {
     private String brand;
@@ -29,7 +33,7 @@ abstract public class Bike {
                 .toString();
     }
 
-    public abstract String showInfoForBike();
+    public abstract String writeFormat();
 
 
 }

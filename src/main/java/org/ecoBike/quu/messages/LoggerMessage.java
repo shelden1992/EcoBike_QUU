@@ -9,7 +9,8 @@ public enum LoggerMessage {
     ADD_NEW_SPEEDELEC_BIKE("Add new SpeedelecBike"),
     ADD_NEW_FOLDING_BIKE("Add new FoldingBike"),
     WRITE_TO_FILE("Write to File"),
-    ENTER_NOT_VALID_VALUE("Enter not valid value.")
+    ENTER_NOT_VALID_VALUE("Enter not valid value."),
+    OUTPUT_EXCEPTION("Output exception"),
 
     ;
     String name;

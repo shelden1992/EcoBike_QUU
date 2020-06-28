@@ -2,96 +2,93 @@ package org.ecoBike.quu.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Shelupets Denys on 23.06.2020.
  */
 
 @Getter
-@Setter
-@EqualsAndHashCode
-public class FoldingBike extends Bike implements Comparable {
+@EqualsAndHashCode(callSuper = true)
+public class FoldingBike extends Bike {
+    private String brand;
     private int sizeWheels;
     private int numberGears;
+    private int weightBike;
+    private boolean presenceLights;
+    private String color;
+    private int price;
 
 
-    private FoldingBike(Builder builder) {
-        super(builder.brand, builder.weightBike, builder.presenceLights, builder.color, builder.price);
-        this.sizeWheels = builder.sizeWheels;
-        this.numberGears = builder.numberGears;
+    private FoldingBike() {
+    }
+
+
+    public static Builder newBuilder() {
+        return new FoldingBike().new Builder();
     }
 
     @Override
-    public String showInfoForBike() {
+    public String writeFormat() {
+        return String.format("\nFOLDING BIKE %s; %d; %d; %d; %s; %s; %d", getBrand(), getSizeWheels(), getNumberGears(), getWeightBike(), isPresenceLights(), getColor(), getPrice());
+    }
+
+    @Override
+    public String toString() {
         String light = isPresenceLights() ? "" : " no";
         return String.format("FOLDING BIKE %s with %d gear(s) and%s head/tail light.\n" +
                 "Price: %d euros.", getBrand(), getNumberGears(), light, getPrice());
     }
 
-    @Override
-    public String toString() {
-        return String.format("\nFOLDING BIKE %s; %d; %d; %d; %s; %s; %d", getBrand(), getSizeWheels(), getNumberGears(), getWeightBike(), isPresenceLights(), getColor(), getPrice());
-    }
+    public class Builder {
 
-    @Override
-    public int compareTo(Object o) {
-        return 1;
-    }
+        private Builder() {
 
-    public static class Builder {
-        private String brand;
-        private int sizeWheels;
-        private int numberGears;
-        private int weightBike;
-        private boolean presenceLights;
-        private String color;
-        private int price;
+        }
 
-        public Builder(String brand) {
-            this.brand = brand;
+        public Builder brand(String brand) {
+            FoldingBike.this.brand = brand;
+            return this;
         }
 
         public Builder sizeWheels(int sizeWheels) {
-            this.sizeWheels = sizeWheels;
-
+            FoldingBike.this.sizeWheels = sizeWheels;
             return this;
         }
 
         public Builder numberGears(int numberGears) {
-            this.numberGears = numberGears;
+            FoldingBike.this.numberGears = numberGears;
 
             return this;
         }
 
         public Builder weightBike(int weightBike) {
-            this.weightBike = weightBike;
+            FoldingBike.this.weightBike = weightBike;
 
             return this;
         }
 
         public Builder isPresenceLights(boolean presenceLights) {
-            this.presenceLights = presenceLights;
+            FoldingBike.this.presenceLights = presenceLights;
 
             return this;
         }
 
 
         public Builder color(String color) {
-            this.color = color;
+            FoldingBike.this.color = color;
 
             return this;
         }
 
         public Builder price(int price) {
-            this.price = price;
+            FoldingBike.this.price = price;
 
             return this;
         }
 
 
         public FoldingBike build() {
-            return new FoldingBike(this);
+            return FoldingBike.this;
         }
     }
 }

@@ -14,13 +14,17 @@ public enum Messages {
     WRITE_TO_FILE("6 – Write to file"),
     STOP_PROGRAM("7 – Stop the program\n" +
             "=================================================="),
-    INCORRECT_INPUT("Incorrect input, please make you choice\n"),
+    INCORRECT_INPUT("Incorrect input, or incorrect data file please make you choice\n"),
     CONFIRM_INPUT("Do you confirm? Type y/n."),
     ADDED_SUCCESSFULLY("Added successfully!\n"),
     WRITE_SUCCESSFULLY("Write to file successfully!\n"),
     YOU_SURE_GO_OUT("You sure you want to go out? Data will be lost. Type y/n"),
     NOTHING_WRITE("Nothing to write"),
-    GOOD_BY("Good By"),
+    GOOD_BY("Bye-bye!"),
+    ENTER_FILE_PATH("Enter path to file"),
+    INVALID_ENTER_PATH("Invalid path! Enter correct path ot type \"esc\""),
+    PATH_SUCCESSFULLY("Successfully"),
+
     ;
 
 

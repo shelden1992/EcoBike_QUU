@@ -9,82 +9,86 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class SpeedelecBike extends Bike {
+    private String brand;
     private int maximumSpeed;
+    private int weightBike;
+    private boolean presenceLights;
     private int batteryCapacity;
+    private String color;
+    private int price;
 
+    public SpeedelecBike() {
+    }
 
-    private SpeedelecBike(Builder builder) {
-        super(builder.brand, builder.weightBike, builder.presenceLights, builder.color, builder.price);
-        this.maximumSpeed = builder.maximumSpeed;
-        this.batteryCapacity = builder.batteryCapacity;
+    public static Builder newBuilder() {
+        return new SpeedelecBike().new Builder();
     }
 
     @Override
-    public String showInfoForBike() {
+    public String writeFormat() {
+        return String.format("\nSPEEDELEC %s; %d; %d; %s; %d; %s; %d", getBrand(), getMaximumSpeed(), getWeightBike(), isPresenceLights(), getBatteryCapacity(), getColor(), getPrice());
+    }
+
+    @Override
+    public String toString() {
         String light = isPresenceLights() ? "" : " no";
         return String.format("SPEEDELEC %s with %d mAh battery and%s head/tail light.\n" +
                 "Price: %d euros.", getBrand(), getBatteryCapacity(), light, getPrice());
     }
 
-    @Override
-    public String toString() {
-        return String.format("\nSPEEDELEC %s; %d; %d; %s; %d; %s; %d", getBrand(), getMaximumSpeed(), getWeightBike(), isPresenceLights(), getBatteryCapacity(), getColor(), getPrice());
-    }
+    public class Builder {
 
-    public static class Builder {
-        private String brand;
-        private int maximumSpeed;
-        private int weightBike;
-        private boolean presenceLights;
-        private int batteryCapacity;
-        private String color;
-        private int price;
 
-        public Builder(String brand) {
-            this.brand = brand;
+        private Builder() {
+
         }
 
+        public Builder brand(String brand) {
+            SpeedelecBike.this.brand = brand;
+
+            return this;
+        }
 
         public Builder weightBike(int weightBike) {
-            this.weightBike = weightBike;
+            SpeedelecBike.this.weightBike = weightBike;
 
             return this;
         }
 
         public Builder isPresenceLights(boolean presenceLights) {
-            this.presenceLights = presenceLights;
+            SpeedelecBike.this.presenceLights = presenceLights;
 
             return this;
         }
 
         public Builder batteryCapacity(int batteryCapacity) {
-            this.batteryCapacity = batteryCapacity;
+            SpeedelecBike.this.batteryCapacity = batteryCapacity;
 
             return this;
         }
 
         public Builder color(String color) {
-            this.color = color;
+            SpeedelecBike.this.color = color;
 
             return this;
         }
 
         public Builder price(int price) {
-            this.price = price;
+            SpeedelecBike.this.price = price;
 
             return this;
         }
 
         public Builder maximumSpeed(int maximumSpeed) {
-            this.maximumSpeed = maximumSpeed;
+            SpeedelecBike.this.maximumSpeed = maximumSpeed;
 
             return this;
         }
 
         public SpeedelecBike build() {
-            return new SpeedelecBike(this);
+            return SpeedelecBike.this;
         }
     }
 }
