@@ -16,26 +16,20 @@ import java.util.List;
 @Getter
 public class BikeCatalogService implements Catalog {
     private Repository repository;
+    private InputBikeService inputService;
 
-
-    public BikeCatalogService(Repository repository) {
+    public BikeCatalogService(Repository repository, InputBikeService inputService) {
         this.repository = repository;
-    }
-
-
-    @Override
-    public void addBikeToTempList(Bike bike) {
-        repository.addBikeToTempList(bike);
+        this.inputService = inputService;
     }
 
     @Override
-    public void writeAndClearTempList() throws IOException {
+    public void writeTempList(String path) throws IOException {
 
         if (tempListIsEmpty()) {
             StringUtils.writeText(Messages.NOTHING_WRITE.getMessage());
         } else {
-            repository.writeToFile();
-            repository.getTempList().clear();
+            repository.writeToFile(path);
             StringUtils.writeText(Messages.WRITE_SUCCESSFULLY.getMessage());
         }
     }
@@ -47,22 +41,41 @@ public class BikeCatalogService implements Catalog {
     }
 
     @Override
+    public void clearTempList() {
+        repository.getTempList().clear();
+    }
+
+    @Override
     public Boolean tempListIsEmpty() {
         return getTempList().isEmpty();
     }
 
+
     @Override
-    public void setPath() {
-        repository.setPath();
+    public void showWriteBikeCatalog(String path) throws IOException, NumberFormatException {
+        getWriteList(path).forEach(Bike -> StringUtils.writeText(Bike.toString()));
+    }
+
+    public List<Bike> getWriteList(String path) throws IOException {
+        return repository.getWriteBike(path);
     }
 
     @Override
-    public void showWriteBikeCatalog() throws IOException, NumberFormatException {
-        if (repository.getWriteBike().isEmpty()) {
-            repository.readAll();
-        }
-        repository.getWriteBike().forEach(Bike -> StringUtils.writeText(Bike.toString()));
+    public void addBike(Class classBike) throws NumberFormatException {
+        repository.addBikeToTempList(inputService.getNewBike(classBike));
+        StringUtils.writeText(Messages.ADDED_SUCCESSFULLY.getMessage());
+    }
 
+    @Override
+    public void findOne(String path) throws IOException, NumberFormatException {
+        Class classBike = inputService.findBikeType();
+        Bike newBike = inputService.getNewBike(classBike);
+        new FindService(newBike).findBike(getWriteList(path));
+    }
+
+    @Override
+    public List<Bike> readAll(String path) throws IOException, NumberFormatException {
+        return repository.readAll(path);
     }
 
 }

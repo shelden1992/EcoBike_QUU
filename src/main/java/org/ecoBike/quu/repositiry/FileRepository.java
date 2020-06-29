@@ -3,11 +3,12 @@ package org.ecoBike.quu.repositiry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ecoBike.quu.messages.LoggerMessage;
-import org.ecoBike.quu.messages.Messages;
 import org.ecoBike.quu.model.*;
 import org.ecoBike.quu.utils.StringUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -21,11 +22,9 @@ import static org.ecoBike.quu.factory.FactoryBikes.getBike;
  */
 public class FileRepository implements Repository {
     public static final String SPLIT_PATTERN = ";\\s";
-    public static final String ESC_CASE = "esc";
     private static final Logger LOGGER = LogManager.getLogger(FileRepository.class);
     private static final List<Bike> TEMP_BIKE_LIST = Collections.synchronizedList(new ArrayList<>());
     private static List<Bike> writeBike = new ArrayList<>();
-    private static String pathToProject;
     private Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -33,9 +32,10 @@ public class FileRepository implements Repository {
         return TEMP_BIKE_LIST;
     }
 
-    public synchronized void writeToFile() throws IOException {
+    @Override
+    public synchronized void writeToFile(String pathToFile) throws IOException {
         if (TEMP_BIKE_LIST.isEmpty()) return;
-        try (FileWriter fileWriter = new FileWriter(pathToProject, true)) {
+        try (FileWriter fileWriter = new FileWriter(pathToFile, true)) {
             TEMP_BIKE_LIST.forEach(bike -> {
                 try {
                     fileWriter.write(bike.writeFormat());
@@ -47,21 +47,23 @@ public class FileRepository implements Repository {
         }
     }
 
-    public List<Bike> readAll() throws IOException, NumberFormatException {
-        writeBike = Stream.of(readFoldingBike(), readElectroBike(), readSpeedelecBike())
+    @Override
+    public List<Bike> readAll(String path) throws IOException, NumberFormatException {
+        writeBike = Stream.of(readFoldingBike(path), readElectroBike(path), readSpeedelecBike(path))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         return writeBike;
     }
 
-    public List<Bike> getWriteBike() {
-        return writeBike;
+    @Override
+    public List<Bike> getWriteBike(String path) throws IOException {
+        return writeBike.isEmpty() ? readAll(path) : writeBike;
     }
 
     @Override
-    public List<Bike> readFoldingBike() throws IOException, NumberFormatException {
+    public List<Bike> readFoldingBike(String pathToFile) throws IOException, NumberFormatException {
         List<Bike> foldingBike = new ArrayList<>();
-        try (BufferedReader fileReader = Files.newBufferedReader(Paths.get(pathToProject))) {
+        try (BufferedReader fileReader = Files.newBufferedReader(Paths.get(pathToFile))) {
             String readLine;
             while ((readLine = fileReader.readLine()) != null) {
                 if (readLine.contains(TypeBike.FOLDING_BIKE.getName())) {
@@ -74,9 +76,9 @@ public class FileRepository implements Repository {
     }
 
     @Override
-    public List<Bike> readElectroBike() throws IOException, NumberFormatException {
+    public List<Bike> readElectroBike(String pathToFile) throws IOException, NumberFormatException {
         List<Bike> electroBike = new ArrayList<>();
-        try (BufferedReader fileReader = Files.newBufferedReader(Paths.get(pathToProject))) {
+        try (BufferedReader fileReader = Files.newBufferedReader(Paths.get(pathToFile))) {
             String readLine;
             while ((readLine = fileReader.readLine()) != null) {
                 if (readLine.contains(TypeBike.E_BIKE.getName())) {
@@ -89,7 +91,7 @@ public class FileRepository implements Repository {
     }
 
     @Override
-    public List<Bike> readSpeedelecBike() throws IOException, NumberFormatException {
+    public List<Bike> readSpeedelecBike(String pathToProject) throws IOException, NumberFormatException {
         List<Bike> speedlecBike = new ArrayList<>();
         try (BufferedReader fileReader = Files.newBufferedReader(Paths.get(pathToProject))) {
             String readLine;
@@ -103,23 +105,6 @@ public class FileRepository implements Repository {
         return speedlecBike;
     }
 
-    @Override
-    public void setPath() {
-        String inputString;
-        StringUtils.writeText(Messages.ENTER_FILE_PATH.getMessage());
-        FileFilter fileFilter = file -> file.exists() && file.isFile() && file.getName().endsWith("ecobike.txt");
-        while (!(fileFilter.accept(new File(inputString = scanner.nextLine())) || ESC_CASE.equalsIgnoreCase(inputString))
-        ) {
-            StringUtils.writeErrorText(Messages.INVALID_ENTER_PATH.getMessage());
-        }
-        if (ESC_CASE.equalsIgnoreCase(inputString)) {
-            LOGGER.debug("Exit status = 0");
-            StringUtils.writeText(Messages.GOOD_BY.getMessage());
-            System.exit(0);
-        }
-        pathToProject = inputString;
-        StringUtils.writeText(Messages.PATH_SUCCESSFULLY.getMessage());
-    }
 
     @Override
     public void addBikeToTempList(Bike bike) {

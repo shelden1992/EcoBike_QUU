@@ -3,7 +3,8 @@ package org.ecoBike.quu;
 
 import org.ecoBike.quu.repositiry.FileRepository;
 import org.ecoBike.quu.services.BikeCatalogService;
-import org.ecoBike.quu.view.Menu;
+import org.ecoBike.quu.services.InputBikeService;
+import org.ecoBike.quu.controller.Menu;
 
 /**
  * Created by Shelupets Denys on 23.06.2020.
@@ -15,7 +16,9 @@ public class MainApp {
     }
 
     private static void start() {
-        new Menu(new BikeCatalogService(new FileRepository()))
+        new Menu(new BikeCatalogService(
+                new FileRepository(),
+                new InputBikeService()))
                 .startMenu();
     }
 }

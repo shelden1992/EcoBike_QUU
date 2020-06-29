@@ -7,16 +7,21 @@ import java.util.List;
 
 public interface Catalog {
 
-    void addBikeToTempList(Bike bike);
-
-    void writeAndClearTempList() throws IOException;
+    void writeTempList(String path) throws IOException;
 
     List<Bike> getTempList();
 
+    void clearTempList();
+
     Boolean tempListIsEmpty();
 
+    void showWriteBikeCatalog(String path) throws IOException, NumberFormatException;
 
-    void setPath();
+    List<Bike> getWriteList(String path) throws IOException;
 
-    void showWriteBikeCatalog() throws IOException, NumberFormatException;
+    void addBike(Class classBike) throws NumberFormatException;
+
+    void findOne(String path) throws IOException, NumberFormatException;
+
+    List<Bike> readAll(String path) throws IOException, NumberFormatException;
 }

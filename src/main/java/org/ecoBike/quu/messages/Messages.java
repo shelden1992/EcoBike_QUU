@@ -24,8 +24,13 @@ public enum Messages {
     ENTER_FILE_PATH("Enter path to file"),
     INVALID_ENTER_PATH("Invalid path! Enter correct path ot type \"esc\""),
     PATH_SUCCESSFULLY("Successfully"),
-
-    ;
+    ENTER_NUMBER_OF_TYPE("Enter the number of type of bike:\n" +
+            "                1 - E-Bike\n" +
+            "                2 - Folding Bike\n" +
+            "                3 - Speedelec"),
+    ENTER_CORRECT_NUMBER("Incorrect input! Enter 1-3 number"),
+    FOUND_BIKE("Found bike %s"),
+    NOT_FOUND_BIKE("No0t found bike %s");
 
 
     String message;

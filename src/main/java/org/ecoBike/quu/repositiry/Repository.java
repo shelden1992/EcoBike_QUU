@@ -9,21 +9,19 @@ import java.util.List;
  * Created by Shelupets Denys on 27.06.2020.
  */
 public interface Repository {
-    List<Bike> readAll() throws IOException, NumberFormatException;
+    List<Bike> readAll(String path) throws IOException, NumberFormatException;
 
-    List<Bike> readFoldingBike() throws IOException;
+    List<Bike> readFoldingBike(String path) throws IOException, NumberFormatException;
 
-    List<Bike> readElectroBike() throws IOException;
+    List<Bike> readElectroBike(String path) throws IOException, NumberFormatException;
 
-    List<Bike> readSpeedelecBike() throws IOException;
+    List<Bike> readSpeedelecBike(String path) throws IOException, NumberFormatException;
 
-    void writeToFile() throws IOException;
-
-    void setPath();
+    void writeToFile(String path) throws IOException;
 
     void addBikeToTempList(Bike bike);
 
     List<Bike> getTempList();
 
-    List<Bike> getWriteBike();
+    List<Bike> getWriteBike(String path) throws IOException;
 }
